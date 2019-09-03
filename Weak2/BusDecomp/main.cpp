@@ -1,7 +1,6 @@
-#ifndef BUSE_DECOMPOSITION_H
-#define BUSE_DECOMPOSITION_H
+#include <iostream>
 
-#endif // BUSE_DECOMPOSITION_H
+//#include "buse_decomposition.h"
 
 #include <string>
 #include <iostream>
@@ -96,6 +95,7 @@ struct StopsForBusResponse {
 	}
 };
 
+
 ostream& operator << (ostream& os, const StopsForBusResponse& r) {
 	if ( r.empty() ) {
 		os << "No bus";
@@ -142,15 +142,14 @@ ostream& operator << (ostream& os, const AllBusesResponse& r) {
 class BusManager {
 public:
 	void AddBus(const string& bus, const vector<string>& stops) {
-		buses_to_stops_[bus] = stops;
+		stops_to_buses_[bus] = stops;
 		for ( const auto& stop: stops){
-			stops_to_buses_[stop].push_back(bus);
+			buses_to_stops_[stop].push_back(bus);
 		}
 	}
 
 	BusesForStopResponse GetBusesForStop(const string& stop) const {
 		if ( buses_to_stops_.count(stop) != 0){
-			cout << "all ok";
 			return BusesForStopResponse{stop, buses_to_stops_.at(stop)};
 		}
 		else {
@@ -173,8 +172,38 @@ public:
 	}
 
 	AllBusesResponse GetAllBuses() const {
-			return {buses_to_stops_};
+			return {stops_to_buses_};
 	}
 private:
 	map<string, vector<string>> buses_to_stops_, stops_to_buses_;
 };
+
+int main() {
+	if ( system("./test_cursera") )
+		return 1;
+	int query_count;
+	Query q;
+
+	cin >> query_count;
+
+	BusManager bm;
+	for (int i = 0; i < query_count; ++i) {
+		cin >> q;
+		switch (q.type) {
+		case QueryType::NewBus:
+			bm.AddBus(q.bus, q.stops);
+			break;
+		case QueryType::BusesForStop:
+			cout << bm.GetBusesForStop(q.stop) << endl;
+			break;
+		case QueryType::StopsForBus:
+			cout << bm.GetStopsForBus(q.bus) << endl;
+			break;
+		case QueryType::AllBuses:
+			cout << bm.GetAllBuses() << endl;
+			break;
+		}
+	}
+
+	return 0;
+}

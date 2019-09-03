@@ -78,8 +78,71 @@ private:
 	int fail_count = 0;
 };
 
+void TestDefaultConstructor()
+{
+	Rational r;
+	Assert(r.Numerator() == 0 && r.Denominator() == 1, "Default constructor wrong work");
+}
+
+void TestCompression()
+{
+	{
+		Rational r(4, 12);
+		Assert(r.Numerator() == 1
+			&& r.Denominator() == 3,
+			"Compression wrong work");
+	}
+}
+
+void TestMinus()
+{
+	{
+		Rational r(4, - 12);
+		Assert(r.Numerator() == -1
+			&& r.Denominator() == 3,
+			"Compression wrong work");
+	}
+	{
+		Rational r(-4, -12);
+		Assert(r.Numerator() == 1
+			&& r.Denominator() == 3,
+			"Compression wrong work");
+	}
+	{
+		Rational r(- 4, 12);
+		Assert(r.Numerator() == -1
+			&& r.Denominator() == 3,
+			"Compression wrong work");
+	}
+	{
+		Rational r(1, 3);
+		Assert(r.Numerator() == 1
+			&& r.Denominator() == 3,
+			"Compression wrong work");
+	}
+}
+void TestZero()
+{
+	{
+		Rational r(0, 20);
+		Assert(r.Numerator() == 0
+			&& r.Denominator() == 1,
+			"Zero wrong work");
+	}
+
+}
+
+void testAll()
+{
+	TestRunner tr;
+	tr.RunTest(TestDefaultConstructor, "Wrong default constructor");
+	tr.RunTest( TestCompression, "Compression");
+	tr.RunTest( TestMinus, "Minus interpretator");
+	tr.RunTest( TestZero, "Zero work");
+}
 
 
 int main(){
+	testAll();
 	return 0;
 }
