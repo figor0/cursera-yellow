@@ -1,85 +1,77 @@
-//#include "test_framework.h"
-#include <string>
+#include "test_framework.h"
+#include "sum_reverse_sort.h"
 
-#include <sstream>
-#include <exception>
-#include <iostream>
-#include <string>
-#include <map>
-#include <set>
 
-using namespace std;
-
-template <class T>
-ostream& operator << (ostream& os, const set<T>& s) {
-	os << "{";
-	bool first = true;
-	for (const auto& x : s) {
-		if (!first) {
-			os << ", ";
-		}
-		first = false;
-		os << x;
-	}
-	return os << "}";
-}
-
-template <class K, class V>
-ostream& operator << (ostream& os, const map<K, V>& m) {
-	os << "{";
-	bool first = true;
-	for (const auto& kv : m) {
-		if (!first) {
-			os << ", ";
-		}
-		first = false;
-		os << kv.first << ": " << kv.second;
-	}
-	return os << "}";
-}
-
-template<class T, class U>
-void AssertEqual(const T& t, const U& u,
-		const string& hint)
+void SumTest()
 {
-	if (t != u) {
-		ostringstream os;
-		os << "Assertion failed: " << t << " != " << u
-			 << " hint: " << hint;
-		throw runtime_error(os.str());
+	Assert(Sum(-1, -4) == -5, "All negative numbers: wrong work");
+	Assert(Sum(1, 4) == 5, "All positive numbers: wrong work");
+	Assert(Sum(-1, 4) == 3, "Left negative right positive: wrong work");
+	Assert(Sum(1, -4) == -3, "Left negative right positive: wrong work");
+	Assert(Sum(0, 0) == 0, "All zero numbers: wrong work");
+}
+
+void ReverseTest()
+{
+	{
+		Assert(Reverse({}) == string(), "empty case: wrong work");
+	}
+	{
+		string reversed = Reverse("w");
+		Assert( reversed == string("w"), "Single literal case: wrong answer - " + reversed);
+		Assert(Reverse({"w"}) == string("w"), "Single literal case: wrong work");
+	}
+	{
+		string reversed = Reverse("wtf");
+		Assert( reversed == string("ftw"), "common case: wrong answer: " + reversed);
+	}
+	{
+		string reversed = Reverse("carl marshal");
+		Assert( reversed == string("lahsram lrac"), "common case: wrong answer: " + reversed);
+	}
+	{
+		string reversed = Reverse("madam");
+		Assert( reversed == string("madam"), "polindrom case: wrong answer: " + reversed
+				+ " right : madam");
 	}
 }
 
-inline void Assert(bool b, const string& hint) {
-	AssertEqual(b, true, hint);
+void SortTest()
+{
+	{
+		vector<int> sorted;
+		Sort(sorted);
+		Assert(vector<int>() == sorted, "Empty case: wrong work");
+	}
+	{
+		vector<int> sorted{5};
+		Sort(sorted);
+		Assert(vector<int>{5} == sorted, "One element: wrong work");
+	}
+	{
+		vector<int> sorted{-5, -5, -5, -5, -5};
+		Sort(sorted);
+		Assert(vector<int>{-5, -5, -5, -5, -5} == sorted, "Equal elements: wrong work");
+	}
+	{
+		vector<int> sorted{5,4,3,2,1};
+		Sort(sorted);
+		Assert(vector<int>{1,2,3,4,5} == sorted, "Common case: wrong work" );
+	}
 }
 
-class TestRunner {
-public:
-	template <class TestFunc>
-	void RunTest(TestFunc func, const string& test_name) {
-		try {
-			func();
-			cerr << test_name << " OK" << endl;
-		} catch (runtime_error& e) {
-			++fail_count;
-			cerr << test_name << " fail: " << e.what() << endl;
-		}
-	}
 
-	~TestRunner() {
-		if (fail_count > 0) {
-			cerr << fail_count << " unit tests failed. Terminate" << endl;
-			exit(1);
-		}
-	}
-
-private:
-	int fail_count = 0;
-};
+void TestAll()
+{
+	TestRunner tr;
+	tr.RunTest(SumTest, "Sum test");
+	tr.RunTest(ReverseTest, "Reverse test");
+	tr.RunTest( SortTest, "Sort test");
+}
 
 
 
 int main(){
+	TestAll();
 	return 0;
 }
