@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+
 using namespace std;
 
 class PhoneNumber {
@@ -16,17 +17,17 @@ public:
 
      Примеры:
      * +7-495-111-22-33
-     * +7-495-1112233
-     * +323-22-460002
+		 * +7-495-1112232
+		 * +323-22-460002
      * +1-2-coursera-cpp
      * 1-2-333 - некорректный номер - не начинается на '+'
      * +7-1233 - некорректный номер - есть только код страны и города
   */
-  explicit PhoneNumber(const string &international_number);
+	explicit PhoneNumber(const string &international_number);
 
   string GetCountryCode() const;
   string GetCityCode() const;
-  string GetLocalNumber() const;
+	string GetLocalNumber() const;
   string GetInternationalNumber() const;
 
 private:
@@ -36,4 +37,4 @@ private:
 };
 
 
-vector<string> split(string input);
+vector<string> split(string::const_iterator begin, string::const_iterator end, char separator);
