@@ -10,14 +10,16 @@ vector<string> split(string input)
 	if ( !input.empty()){
 		for (auto it = input.begin(); it != input.end(); it++) {
 			if ( *it == '-'){
-				if (it - input.begin() > 0)
-					result.push_back({input.begin(), prev(it)});
-				input.erase(input.begin(), it);
+				if (it - input.begin() > 1)
+					result.push_back({input.begin(), it});
+				if (next(it) == input.end())
+					break;
+				input.erase(input.begin(), next(it));
 				it = input.begin();
 			}
 		}
 	}
-	if ( !input.empty() ){
+	if ( !input.empty()){
 		result.push_back(input);
 	}
 	return result;
@@ -39,8 +41,25 @@ PhoneNumber::PhoneNumber(const string &international_number)
 	local_number_ = separeted[2];
 }
 
-/*istream& operator>>(istream& stream, PhoneNumber& number)
-{
-	return stream;
-}*/
+string PhoneNumber::GetCountryCode() const{ return country_code_;}
+string PhoneNumber::GetCityCode() const{ return city_code_;}
+string PhoneNumber::GetLocalNumber() const{ return local_number_;}
+string PhoneNumber::GetInternationalNumber() const{ return country_code_;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
