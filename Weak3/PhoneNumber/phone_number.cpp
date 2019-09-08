@@ -47,18 +47,16 @@ PhoneNumber::PhoneNumber(const string &international_number)
 		return value.empty();
 	});
 	if ( emptyable )
-		throw invalid_argument("");
-	if ( separeted.size() != 3 && separeted.size() != 5)
 		throw err;
-	if ( separeted.size() == 3){
-		country_code_ = separeted[0];
-		city_code_ = separeted[1];
-		local_number_ = separeted[2];
-	}
-	if ( separeted.size() == 5){
-		country_code_ = separeted[0];
-		city_code_ = separeted[1];
-		local_number_ = separeted[2] + '-' + separeted[3] + '-' +  separeted[4];
+	if ( separeted.size() < 3 || separeted.size() > 5)
+		throw err;
+	country_code_ = separeted[0];
+	city_code_ = separeted[1];
+	for (size_t i = 2; i < separeted.size() ; i++){
+		local_number_+= separeted[i];
+		if ( separeted.size() > 3 && i != separeted.size() - 1){
+			local_number_+='-';
+		}
 	}
 }
 
