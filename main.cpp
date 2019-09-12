@@ -5,69 +5,60 @@
 #include <iterator>
 #include <set>
 
-#include "test_framework.h"
+//#include "test_framework.h"
+//#include "FindStartWith.h"
 
 using namespace std;
 
-set<int>::const_iterator FindNearestElement(
-		const set<int>& numbers,
-		int border)
+struct cmp{
+	bool operator()( const std::string& lhs, const char rhs) const
+	{
+		if (lhs.empty() == false)
+			return lhs[0] < rhs;
+		return false;
+	}
+	bool operator()( const char lhs, const std::string& rhs) const
+	{
+		if ( rhs.empty() == false)
+			return lhs < rhs[0];
+		return false;
+	}
+};
+
+template <typename RandomIt>
+std::pair<RandomIt, RandomIt> FindStartsWith(RandomIt range_begin	,
+									   RandomIt range_end	,
+									   char 	prefix		)
 {
-	if (numbers.empty())
-		return numbers.end();
-	auto [lower, upper] = numbers.equal_range(border);
-	if ( lower == numbers.end())
-		return upper;
-	if ( upper 	== numbers.end())
-		return lower;
-	int duration = border - *lower;
-	return duration <= *upper - border ? lower : upper;
+	if (range_end - range_begin == 0)
+		return {range_begin, range_end};
+	auto pairIt = std::equal_range(range_begin, range_end, prefix, cmp{});
+	return {pairIt.first,	pairIt.second};
 }
 
-void TestFinder(){
-	{
-		// extremal cases
-		set<int> s{1, 10, 15, 17, 20};
-		int result = *FindNearestElement(s, 100);
-		Assert( result == 20, "lower case exist: wrong answer "
-						+ to_string(result) + " right answer  = 20" );
-		result = *FindNearestElement(s, -200);
-		Assert( result == 1, "upper case exist: wrong answer "
-						+ to_string(result) + " right answer  = 1" );
-	}
-	{
-		set<int> s{1, 10, 15, 17, 20};
-		int result = *FindNearestElement(s, 10);
-		Assert( result == 10, "border exist: wrong answer "
-						+ to_string(result) + " right answer  = 10" );
-		result = *FindNearestElement(s, 20);
-		Assert( result == 20, "border exist case: wrong answer "
-						+ to_string(result) + " right answer  = 20" );
-		result = *FindNearestElement(s, 16);
-		Assert( result == 15, "both are near case: wrong answer "
-						+ to_string(result) + " right answer  = 15" );
-	}
-	{
-		set<int> s{1, 10, 15, 17, 20};
-		int result = *FindNearestElement(s, 10);
-		Assert( result == 10, "border exist: wrong answer "
-						+ to_string(result) + " right answer  = 10" );
-		result = *FindNearestElement(s, 20);
-		Assert( result == 20, "border exist case: wrong answer "
-						+ to_string(result) + " right answer  = 20" );
-	}
-}
-
-void TestAll(){
-	TestRunner tr;
-	tr.RunTest(TestFinder, "Test FindNearest");
-}
 
 int main() {
-//	if (system("./test_cursera")){
-//		return 1;
-//	}
-	TestAll();
-//	set<int> s{1 , 10, 15};
-	return 0;
+	if (system("./test_cursera")){
+		return 1;
+	}
+
+  const vector<string> sorted_strings = {"moscow", "murmansk", "vologda"};
+  const auto m_result =
+	  FindStartsWith(begin(sorted_strings), end(sorted_strings), 'm');
+  for (auto it = m_result.first; it != m_result.second; ++it) {
+	cout << *it << " ";
+  }
+  cout << endl;
+
+  const auto p_result =
+	  FindStartsWith(begin(sorted_strings), end(sorted_strings), 'p');
+  cout << (p_result.first - begin(sorted_strings)) << " " <<
+	  (p_result.second - begin(sorted_strings)) << endl;
+
+  const auto z_result =
+	  FindStartsWith(begin(sorted_strings), end(sorted_strings), 'z');
+  cout << (z_result.first - begin(sorted_strings)) << " " <<
+	  (z_result.second - begin(sorted_strings)) << endl;
+
+  return 0;
 }
