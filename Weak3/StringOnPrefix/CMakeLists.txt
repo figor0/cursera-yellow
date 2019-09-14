@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 project(cursera)
 set(CMAKE_CXX_STANDARD 17)
 set( GENERAL_SOURCES  )
-set( GENERAL_HEADERS "test_framework.h" "numeric_expression.h")
+set( GENERAL_HEADERS "test_framework.h" "FindStartWith.h")
 
 set (TEST test_${PROJECT_NAME})
 set (TEST_SOURCES "test.cpp" ${GENERAL_SOURCES})
