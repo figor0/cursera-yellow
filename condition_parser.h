@@ -1,0 +1,4 @@
+#ifndef CONDITION_PARSER_H
+#define CONDITION_PARSER_H
+
+#endif // CONDITION_PARSER_H

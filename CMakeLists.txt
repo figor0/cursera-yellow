@@ -2,8 +2,19 @@ cmake_minimum_required(VERSION 2.8)
 
 project(cursera)
 set(CMAKE_CXX_STANDARD 17)
-set( GENERAL_SOURCES  )
-set( GENERAL_HEADERS "test_framework.h" )
+set( GENERAL_SOURCES
+    "database.cpp"
+    "date.cpp"
+    "condition_parser.cpp"
+    "node.cpp"
+    )
+set( GENERAL_HEADERS
+    "test_runner.h"
+    "database.h"
+    "date.h"
+    "condition_parser.h"
+    "node.h"
+    )
 
 set (TEST test_${PROJECT_NAME})
 set (TEST_SOURCES "test.cpp" ${GENERAL_SOURCES})
