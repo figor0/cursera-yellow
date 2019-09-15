@@ -7,7 +7,6 @@
 
 #include "test_framework.h"
 
-using namespace std;
 
 void TestAll(){
 	TestRunner tr;

@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(cursera)
 set(CMAKE_CXX_STANDARD 17)
-set( GENERAL_SOURCES  )
-set( GENERAL_HEADERS "test_framework.h" "numeric_expression.h")
+set( GENERAL_SOURCES  "mans.cpp")
+set( GENERAL_HEADERS "test_framework.h" "mans.h")
 
 set (TEST test_${PROJECT_NAME})
 set (TEST_SOURCES "test.cpp" ${GENERAL_SOURCES})
@@ -17,6 +17,7 @@ if (Boost_FOUND)
         include_directories(${Boost_INCLUDE_DIRS})
         add_executable( ${TEST} ${TEST_SOURCES} ${TEST_HEADERS})
         target_link_libraries(${TEST} ${Boost_LIBRARIES})
+        add_test(${TEST} ${TEST})
 
         add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
         target_link_libraries(${PROJECT_NAME}  ${Boost_LIBRARIES})
