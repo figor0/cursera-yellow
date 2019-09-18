@@ -7,6 +7,7 @@ set( GENERAL_SOURCES
     "date.cpp"
     "condition_parser.cpp"
     "node.cpp"
+    "token.cpp"
     )
 set( GENERAL_HEADERS
     "test_runner.h"
@@ -14,6 +15,7 @@ set( GENERAL_HEADERS
     "date.h"
     "condition_parser.h"
     "node.h"
+    "token.h"
     )
 
 set (TEST test_${PROJECT_NAME})

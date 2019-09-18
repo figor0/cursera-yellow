@@ -9,7 +9,9 @@
 using namespace std;
 
 string ParseEvent(istream& is) {
-
+	string result;
+	getline(is, result, '\n');
+	return result;
 }
 
 void TestAll();
