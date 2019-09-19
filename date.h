@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <exception>
 #include <vector>
+#include <tuple>
 
 class Date {
 public:
@@ -31,6 +32,11 @@ private:
 
 std::ostream& operator<<(std::ostream& reader, const Date& date);
 bool operator<(const Date& lhs, const Date& rhs);
+bool operator<=(const Date& lhs, const Date& rhs);
+bool operator>(const Date& lhs, const Date& rhs);
+bool operator>=(const Date& lhs, const Date& rhs);
+bool operator==(const Date& lhs, const Date& rhs);
+bool operator!=(const Date& lhs, const Date& rhs);
 Date ParseDate(std::istringstream& filler);
 
 

@@ -18,11 +18,6 @@ std::ostream& operator<<(std::ostream& reader, const Date& date)
 	return reader;
 }
 
-bool operator<(const Date& lhs, const Date& rhs) {
-  return std::vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} <
-	  std::vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
-}
-
 Date ParseDate(const std::string& date) {
   std::istringstream date_stream(date);
   bool ok = true;
@@ -52,4 +47,34 @@ Date ParseDate(std::istringstream& filler)
 	std::string date;
 	filler >> date;
 	return ParseDate(date);
+}
+
+bool operator<(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} <
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator<=(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} <=
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator>(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} >
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator>=(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} >=
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator==(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} ==
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator!=(const Date& lhs, const Date& rhs) {
+  return std::tuple{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} !=
+	  std::tuple{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
 }
