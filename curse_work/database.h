@@ -10,50 +10,26 @@
 #include <utility>
 #include <memory>
 #include <algorithm>
-#include <set>
 
 #include "date.h"
 #include "node.h"
 #include "condition_parser.h"
-
-class Events4Date{
-public:
-	using events_it = set<string>::iterator;
-	using Events4Date_it = vector<events_it>::iterator;
-	pair<events_it, bool> insert(const string& value){
-		auto [it, flag] = _events.insert(value);
-		if ( flag == true){
-			_events_order.push_back(it);
-		}
-		return {it, flag};
-	}
-	void erase( Events4Date_it begin, Events4Date_it end){
-		auto begin_copy = begin;
-		while ( begin_copy != end ){
-			_events.erase(*begin_copy);
-			begin_copy++;
-		}
-		_events_order.erase(begin, end);
-	}
-	bool empty() const { return _events_order.empty() && _events.empty(); }
-	size_t size() const { return _events_order.size() + _events.size(); }
-	std::set<string> _events;
-	std::vector<events_it> _events_order;
-};
+using vecIt = vector<string>::iterator;
+using Events = std::pair<Date, vector<std::string>>;
+using Event = std::pair<Date, std::string>;
 
 class Database
 {
 	using Predicate = std::function<bool(const Date&, const std::string&)>;
 	using EventIt = std::map<Date, std::vector<std::string>>;
-	using Event = std::pair<Date, std::string>;
 public:
 	void 	Add		(const 	Date& 			date, 		const std::string& event);
-	ostream& 	Print	(std::ostream& 	print_stream) const;
+	ostream& 	Print	(std::ostream& 	print_stream);
 	int 	RemoveIf(const 	Predicate& 		predicate	);
-	std::list<Event> FindIf(const Predicate& predicate	) const;
-	Event 	Last	(const Date& date) const;
+	std::list<Event> FindIf(const Predicate& predicate	);
+	Event 	Last	(const Date& date);
 private:
-	map<Date, Events4Date> _events;
+	std::map<Date, std::vector<std::string>> _events;
 };
 
 template<typename T>

@@ -57,7 +57,6 @@ bool EventComparisonNode::Evaluate(const Date &date, const std::string &event) c
 		return event == _event;
 	case Comparison::NotEqual:
 		return event != _event;
-	default: throw std::invalid_argument("wrong");
 	}
 }
 

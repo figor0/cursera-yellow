@@ -36,15 +36,15 @@ Date ParseDate(const std::string& date) {
 
   int day;
   ok = ok && (date_stream >> day);
-	ok = ok && date_stream.eof();
+  ok = ok && date_stream.eof();
 
-	if (!ok) {
+  if (!ok) {
 	throw std::logic_error("Wrong date format: " + date);
   }
   return Date(year, month, day);
 }
 
-Date ParseDate(std::istream& filler)
+Date ParseDate(std::istringstream& filler)
 {
 	std::string date;
 	filler >> date;
